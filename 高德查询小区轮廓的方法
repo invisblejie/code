@@ -1,0 +1,49 @@
+高德查询小区轮廓的方法
+1 通过设定高德poi查询的小区经纬度,查询类型为120302来查询该经纬度附近的小区id
+http://lbs.amap.com/api/webservice/summary/
+http://restapi.amap.com/v3/place/around?key=您的key&location=112.883453,28.22683&keywords=&types=120302&offset=100&page=&extensions=all
+2 使用获得的小区id来查询小区轮廓
+https://gaode.com/service/poiInfo?query_type=IDQ&qii=true&utd_sceneid=1000&id=B02DB07OK2&city=0731
+https://gaode.com/service/poiInfo?query_type=IDQ&pagesize=20&pagenum=1&qii=true&cluster_state=5&need_utd=true&utd_sceneid=1000&div=PC1000&addr_poi_merge=true&is_classify=true&zoom=11&id=B000A84IMM&city=110108
+3 使用获得的小区id来查询小区详细信息
+http://ditu.amap.com/detail/get/detail?id=B0FFHQJVGH
+(缺点: 有部分小区无法找到轮廓经纬度,注册高德公司API,高德地图与百度地图的坐标差异)
+
+
+
+
+百度地图查询小区轮廓的方法
+
+1 通过百度地图的市名加小区名查询小区id
+http://map.baidu.cn/?newmap=1&reqflag=pcmap&biz=1&from=webmap&da_par=direct&pcevaname=pc4.1&qt=s&da_src=searchBox.button&wd=%E9%95%BF%E6%B2%99%E4%B8%87%E7%A7%91%E8%A5%BF%E8%A1%97%E8%8A%B1%E5%9B%AD&c=158&src=0&wd2=%E9%95%BF%E6%B2%99%E4%B8%87%E7%A7%91&sug=1&l=17&b=(12584304.34,3251534.225;12585428.34,3252890.225)&from=webmap&biz_forward={%22scaler%22:1,%22styles%22:%22pl%22}&sug_forward=&tn=B_NORMAL_MAP&nn=0&ie=utf-8&t=1509441326946
+
+简化之后 http://map.baidu.cn/?newmap=1&reqflag=pcmap&from=webmap&qt=s&wd=%E9%95%BF%E6%B2%99%E4%B8%87%E7%A7%91%E8%A5%BF%E8%A1%97%E8%8A%B1%E5%9B%AD&from=webmap
+
+51ff328ed017fcfaebe582b4
+
+
+2 获取小区的详细信息
+http://map.baidu.cn/?ugc_type=3&ugc_ver=1&qt=detailConInfo&t=1509441334675&uid=51ff328ed017fcfaebe582b4&primaryUid=9012619717231460623
+
+简化后 http://map.baidu.cn/?ugc_type=3&ugc_ver=1&qt=detailConInfo&uid=51ff328ed017fcfaebe582b4
+
+3 获取小区轮廓
+http://map.baidu.cn/?newmap=1&reqflag=pcmap&biz=1&from=webmap&da_par=direct&pcevaname=pc4.1&qt=ext&uid=51ff328ed017fcfaebe582b4&c=158&ext_ver=new&tn=B_NORMAL_MAP&nn=0&ie=utf-8&l=18&b=(12584094.57,3252039.865;12584656.57,3252717.865)&t=1509441334666
+
+简化之后
+http://map.baidu.cn/?newmap=1&qt=ext&uid=51ff328ed017fcfaebe582b4&ext_ver=new&l=18
+
+4 将小区的百度米制坐标转换为百度经纬度坐标
+
+http://api.map.baidu.com/geoconv/v1/?coords=12584275.0214,3252363.54051&from=6&to=5&ak=oDdHH5wyAbY8LbivQoABL6K9fzLG8fdn
+
+转换坐标 接口说明(http://lbsyun.baidu.com/index.php?title=webapi/guide/changeposition)
+
+百度poi说明 (http://lbsyun.baidu.com/index.php?title=lbscloud/api/geosearch)
+
+
+from urllib.parse import quote
+quote(url, safe='/:?=')
+unquote('%E6%9D%AD%E5%B7%9E')
+
+req = scrapy.Request('http://map.baidu.cn/?newmap=1&reqflag=pcmap&from=webmap&qt=s&wd=' + quote('长沙万科西街花园', safe='/:?=')  + '&from=webmap', headers={'user-agent': 'Mozilla/4.0 (compatible; MSIE 7.0; Windows NT 5.1)'})

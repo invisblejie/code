@@ -1,0 +1,15 @@
+Test column is A B C D
+
+The detect column is A, dtype is int64, max length is 0 , insert type is None. 
+The column situation is (ibm_db_dbi.ProgrammingError) ibm_db_dbi::ProgrammingError: Statement Execute Failed: [IBM][CLI Driver][DB2/LINUXX8664] SQL0104N  An unexpected token """" was found following "CREATE TABLE ".  Expected tokens may include:  "<space>".  SQLSTATE=42601 SQLCODE=-104 [SQL: '\nCREATE TABLE "" (\n\t"A" BIGINT\n)\n\n'] . 
+
+The detect column is B, dtype is object, max length is 2 , insert type is None. 
+The column situation is (ibm_db_dbi.ProgrammingError) ibm_db_dbi::ProgrammingError: Statement Execute Failed: [IBM][CLI Driver][DB2/LINUXX8664] SQL0104N  An unexpected token """" was found following "CREATE TABLE ".  Expected tokens may include:  "<space>".  SQLSTATE=42601 SQLCODE=-104 [SQL: '\nCREATE TABLE "" (\n\t"B" CLOB\n)\n\n'] . 
+
+The detect column is C, dtype is object, max length is 2 , insert type is None. 
+The column situation is (ibm_db_dbi.ProgrammingError) ibm_db_dbi::ProgrammingError: Statement Execute Failed: [IBM][CLI Driver][DB2/LINUXX8664] SQL0104N  An unexpected token """" was found following "CREATE TABLE ".  Expected tokens may include:  "<space>".  SQLSTATE=42601 SQLCODE=-104 [SQL: '\nCREATE TABLE "" (\n\t"C" CLOB\n)\n\n'] . 
+
+The detect column is D, dtype is object, max length is 5 , insert type is None. 
+The column situation is (ibm_db_dbi.ProgrammingError) ibm_db_dbi::ProgrammingError: Statement Execute Failed: [IBM][CLI Driver][DB2/LINUXX8664] SQL0104N  An unexpected token """" was found following "CREATE TABLE ".  Expected tokens may include:  "<space>".  SQLSTATE=42601 SQLCODE=-104 [SQL: '\nCREATE TABLE "" (\n\t"D" CLOB\n)\n\n'] . 
+
+Finish test insert column all check

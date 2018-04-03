@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	<meta name="viewport" content="initial-scale=1.0, user-scalable=no" />
+	<style type="text/css">
+		body, html,#allmap {width: 100%;height: 100%;overflow: hidden;margin:0;font-family:"微软雅黑";}
+	</style>
+	<script type="text/javascript" src="http://api.map.baidu.com/api?v=2.0&ak=oDdHH5wyAbY8LbivQoABL6K9fzLG8fdn"></script>
+	<title>设置点的新图标</title>
+</head>
+<body>
+	<div id="allmap"></div>
+</body>
+</html>
+<script type="text/javascript">
+	// 百度地图API功能
+	// var map = new BMap.Map("container");  
+	var map = new BMap.Map("allmap");
+	// var map = new BMap.Map("container");   
+
+	// map.centerAndZoom(new BMap.Point(116.404, 39.915), 15);    
+	
+
+	var point = new BMap.Point(114.18817583235,28.437427648113);
+	map.centerAndZoom(point, 15);             // 初始化地图，设置中心点坐标和地图级别
+    map.enableScrollWheelZoom(); // 允许滚轮缩放
+
+    var points =[
+    {"lng": 114.18817583235, "lat": 28.437427648113, "count": 1}, {"lng": 114.19876353058, "lat": 28.43659275297, "count": 1}, {"lng": 114.20758533984, "lat": 28.430295885479, "count": 1}];
+
+    var pointsChange =[
+    {"lng": 114.18818583235, "lat": 28.437437648113, "count": 1}, {"lng": 114.19877353058, "lat": 28.43660275297, "count": 1}, {"lng": 114.20759533984, "lat": 28.430305885479, "count": 1}];
+
+    //坐标转换完之后的回调函数
+    translateCallback = function (data){
+      if(data.status === 0) {
+        // var marker = new BMap.Marker(data.points[0]);
+        // map.addOverlay(marker);
+        // var label = new BMap.Label("转换后的百度标注（正确）",{offset:new BMap.Size(20,-10)});
+        // marker.setLabel(label); //添加百度label
+        // bm.setCenter(data.points[0]);
+        for (var i = 0; i < data.points.length; i++) {
+        	var label = new BMap.Label("百度转换后的标注" + i.toString(),{offset:new BMap.Size(20,-10)});
+        	var marker = new BMap.Marker(data.points[i]);
+        	map.addOverlay(marker);
+        	marker.setLabel(label);
+
+        }
+      }
+
+    }
+
+    
+	// 1：GPS设备获取的角度坐标，wgs84坐标; 2：GPS获取的米制坐标、sogou地图所用坐标; 3：google地图、soso地图、aliyun地图、mapabc地图和amap地图所用坐标，国测局（gcj02）坐标; 4：3中列表地图坐标对应的米制坐标; 5：百度地图采用的经纬度坐标; 6：百度地图采用的米制坐标; 7：mapbar地图坐标; 8：51地图坐标
+	//创建小狐狸
+	// var pt = new BMap.Point(116.417, 39.909);
+	function addMarker(point){
+	  var marker = new BMap.Marker(point);
+	  map.addOverlay(marker);
+	}
+	var myIcon = new BMap.Icon("http://lbsyun.baidu.com/jsdemo/img/fox.gif", new BMap.Size(300,157));
+	// var marker = new BMap.Marker(pt,{icon:myIcon});  // 创建标注
+	var pointArr = [];
+	for (var i = 0; i < points.length; i ++) {
+		var point = new BMap.Point(points[i]["lng"], points[i]["lat"]);
+		var marker = new BMap.Marker(point,{icon:myIcon});
+		var label = new BMap.Label("转换前的标注" + i.toString(),{offset:new BMap.Size(20,-10)});
+		marker.setLabel(label);
+		map.addOverlay(marker);
+		pointArr.push(point);
+	};
+	setTimeout(function(){
+        var convertor = new BMap.Convertor();
+        convertor.translate(pointArr, 3, 5, translateCallback)}, 1000);
+	
+	           // 将标注添加到地图中
+	           
+	var options = {
+            size: BMAP_POINT_SIZE_SMALL,
+            shape: BMAP_POINT_SHAPE_STAR,
+            color: '#d340c3'
+        }
+	for (var i = 0; i < pointsChange.length; i++) {
+        	var labelChange = new BMap.Label("自己转换后的标注" + i.toString(),{offset:new BMap.Size(20,-10)});
+        	var markerChange = new BMap.Marker(pointsChange[i]);
+        	map.addOverlay(markerChange);
+        	markerChange.setLabel(labelChange);
+    }
+
+    // var map = new BMap.Map("container"); 
+    map.addControl(new BMap.NavigationControl());
+
+	map.addControl(new BMap.ScaleControl());
+
+	map.addControl(new BMap.OverviewMapControl());
+	   
+ //    var myPushpin = new BMap.PushpinTool(map);         // 创建标注工具实例    
+	// myPushpin.addEventListener("markend", function(e){  // 监听事件，提示标注点坐标信息   
+	//  alert("您标注的位置：" +     
+	//        e.marker.getPoint().lng + ", " +     
+	//        e.marker.getPoint().lat);    
+	// });    
+	// myPushpin.open(); 
+
+
+
+
+
+</script>
